@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16"/>
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1"/>
+        <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\SocialMedia.Core\SocialMedia.Core.csproj"/>
+        <ProjectReference Include="..\SocialMedia.Infrastructure\SocialMedia.Infrastructure.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="appsettings.json" CopyToOutputDirectory="Always"/>
+        <None Include="appsettings.*.json" CopyToOutputDirectory="Never" DependentUpon="appsettings.json"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="appsettings.*.json" Exclude="appsettings.Development.json" CopyToOutputDirectory="Always" DependentUpon="appsettings.json" Condition="'$(Configuration)' == 'Release'"/>
+    </ItemGroup>
+</Project>
