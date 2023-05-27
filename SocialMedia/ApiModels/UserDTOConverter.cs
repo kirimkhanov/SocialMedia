@@ -15,7 +15,7 @@ public static class UserDTOConverter
             City = user.City,
             Gender = user.Gender
         };
-    public static User FromDTO(this UserDTO userDTO) =>
+    public static User FromDTO(this UserDTO userDTO, string password) =>
                   new ()
                   {
                       Id = userDTO.Id,
@@ -25,6 +25,6 @@ public static class UserDTOConverter
                       Birthdate = userDTO.Birthdate,
                       City = userDTO.City,
                       Gender = userDTO.Gender,
-                      Password = userDTO.Password
+                      Password = password
                   };
 }

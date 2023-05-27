@@ -1,9 +1,9 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using SocialMedia.Core.Interfaces;
+using SocialMedia.Services;
+using SocialMedia.Utils;
 
 namespace SocialMedia.Controllers;
 
@@ -12,10 +12,12 @@ namespace SocialMedia.Controllers;
 public class LoginController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
+    private readonly ITokenService _tokenService;
 
-    public LoginController(IUserRepository userRepository)
+    public LoginController(IUserRepository userRepository, ITokenService tokenService)
     {
         _userRepository = userRepository;
+        _tokenService = tokenService;
     }
 
     [AllowAnonymous]
@@ -26,35 +28,21 @@ public class LoginController : ControllerBase
         if (identity == null)
             return BadRequest(new { errorText = "Invalid username or password." });
 
-        var now = DateTime.UtcNow;
-        
-        var jwt = new JwtSecurityToken(
-            issuer: AuthOptions.ISSUER,
-            audience: AuthOptions.AUDIENCE,
-            notBefore: now,
-            claims: identity.Claims,
-            expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-            signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(),
-                SecurityAlgorithms.HmacSha256));
-        var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-        var response = new
+        return new JsonResult(new
         {
-            access_token = encodedJwt,
+            access_token = _tokenService.CreateToken(identity),
             username = identity.Name
-        };
-
-        return new JsonResult(response);
+        });
     }
 
     private async Task<ClaimsIdentity?> GetIdentity(int userId, string password)
     {
         var user = await _userRepository.GetUserById(userId);
-        if (user == null || user.Password != password) return null;
+        if (user == null || user.Password != Encryptor.MD5Hash(password)) return null;
 
         var claims = new List<Claim>
         {
-            new (ClaimsIdentity.DefaultNameClaimType, user.Id.ToString())
+            new(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString())
         };
         var claimsIdentity =
             new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,

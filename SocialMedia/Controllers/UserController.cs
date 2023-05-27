@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia.ApiModels;
 using SocialMedia.Core.Interfaces;
+using SocialMedia.Utils;
 
 namespace SocialMedia.Controllers;
 
@@ -29,5 +30,5 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<int> Register(UserDTO userDto) =>
-        await _userRepository.AddAsync(userDto.FromDTO());
+        await _userRepository.AddAsync(userDto.FromDTO(Encryptor.MD5Hash(userDto.Password)));
 }
