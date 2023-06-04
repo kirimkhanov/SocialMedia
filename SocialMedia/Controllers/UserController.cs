@@ -29,6 +29,12 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("register")]
-    public async Task<int> Register(UserDTO userDto) =>
-        await _userRepository.AddAsync(userDto.FromDTO(Encryptor.MD5Hash(userDto.Password)));
+    public async Task<IActionResult> Register(UserDTO userDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest("Required form fields are not filled or invalid");
+
+        var user = userDto.FromDTO(Encryptor.MD5Hash(userDto.Password));
+        return Ok(await _userRepository.AddAsync(user));
+    }
 }
