@@ -1,0 +1,32 @@
+networks:
+  social-media:
+    driver: bridge
+services:
+  app:
+    container_name: social-media_web
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    networks:
+      - social-media
+    depends_on:
+      - social-media_db
+  social-media_db:
+    container_name: social_media
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: social_media
+    ports:
+      - "5432:5432"
+    networks:
+      - social-media
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+volumes:
+  postgres-data:
