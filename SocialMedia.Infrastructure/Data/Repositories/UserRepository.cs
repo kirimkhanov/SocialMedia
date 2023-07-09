@@ -30,6 +30,13 @@ public class UserRepository : IUserRepository
         return await con.QueryAsync<User>(sql);
     }
 
+    public async Task<IEnumerable<User>> Search(string firstName, string secondName)
+    {
+        await using var con = new NpgsqlConnection(_connectionString);
+        var sql = "SELECT * FROM users WHERE \"firstName\" LIKE @FirstName || '%' AND \"secondName\" LIKE @SecondName || '%' ORDER BY id";
+        return await con.QueryAsync<User>(sql, new { FirstName = firstName, SecondName = secondName });
+    }
+
     public async Task<int> AddAsync(User user)
     {
         await using var con = new NpgsqlConnection(_connectionString);

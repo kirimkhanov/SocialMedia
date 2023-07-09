@@ -10,10 +10,12 @@ namespace SocialMedia.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
+    private readonly IUserService _userService;
 
-    public UserController(IUserRepository userRepository)
+    public UserController(IUserRepository userRepository, IUserService userService)
     {
         _userRepository = userRepository;
+        _userService = userService;
     }
 
     [Authorize]
@@ -36,5 +38,15 @@ public class UserController : ControllerBase
 
         var user = userDto.FromDTO(Encryptor.MD5Hash(userDto.Password));
         return Ok(await _userRepository.AddAsync(user));
+    }
+
+    [Authorize]
+    [HttpGet("search")]
+    public async Task<IActionResult> Search(string firstName, string secondName)
+    {
+        if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(secondName))
+            return BadRequest("Невалидные данные");
+        
+        return Ok(await _userService.Search(firstName, secondName));
     }
 }

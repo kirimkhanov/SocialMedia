@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SocialMedia;
 using SocialMedia.Core.Interfaces;
+using SocialMedia.Core.Services;
 using SocialMedia.Infrastructure.Data.Repositories;
 using SocialMedia.Services;
 
@@ -58,6 +59,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddTransient<IUserRepository, UserRepository>(ur=>
     new UserRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 var app = builder.Build();
 

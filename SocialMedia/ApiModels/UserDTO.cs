@@ -15,7 +15,7 @@ public class UserDTO
     public DateTime Birthdate { get; set; }
     [Required]
     public string Gender { get; set; }
-    public string Biography { get; set; }
+    public string? Biography { get; set; }
     [Required]
     public string City { get; set; }
     [JsonIgnore]
