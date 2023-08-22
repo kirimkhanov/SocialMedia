@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddTransient<IUserRepository, UserRepository>(ur=>
-    new UserRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
+    new UserRepository(builder.Configuration.GetConnectionString("DefaultConnection"), builder.Configuration.GetConnectionString("SlaveConnection")));
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IUserService, UserService>();
 

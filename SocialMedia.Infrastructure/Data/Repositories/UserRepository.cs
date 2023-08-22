@@ -8,15 +8,17 @@ namespace SocialMedia.Infrastructure.Data.Repositories;
 public class UserRepository : IUserRepository
 {
     private readonly string _connectionString;
+    private readonly string _slaveConnectionString;
 
-    public UserRepository(string connectionString)
+    public UserRepository(string connectionString, string slaveConnectionString)
     {
         _connectionString = connectionString;
+        _slaveConnectionString = slaveConnectionString;
     }
 
     public async Task<User?> GetUserById(int userId)
     {
-        await using var con = new NpgsqlConnection(_connectionString);
+        await using var con = new NpgsqlConnection(_slaveConnectionString);
 
         var sql = "SELECT * FROM users where id = @UserId";
 
@@ -32,7 +34,7 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> Search(string firstName, string secondName)
     {
-        await using var con = new NpgsqlConnection(_connectionString);
+        await using var con = new NpgsqlConnection(_slaveConnectionString);
         var sql = "SELECT * FROM users WHERE \"firstName\" LIKE @FirstName || '%' AND \"secondName\" LIKE @SecondName || '%' ORDER BY id";
         return await con.QueryAsync<User>(sql, new { FirstName = firstName, SecondName = secondName });
     }
