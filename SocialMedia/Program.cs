@@ -5,6 +5,7 @@ using SocialMedia;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Core.Services;
 using SocialMedia.Infrastructure.Data.Repositories;
+using SocialMedia.Middlewares;
 using SocialMedia.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,5 +76,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseExceptionHandling();
 
 app.Run();
