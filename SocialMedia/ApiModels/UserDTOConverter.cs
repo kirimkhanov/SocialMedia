@@ -1,4 +1,5 @@
 ﻿using SocialMedia.Core.Entities;
+using SocialMedia.Core.Entities.Users;
 
 namespace SocialMedia.ApiModels;
 

@@ -24,7 +24,7 @@ public class UserController : ControllerBase
     {
         var user = await _userRepository.GetUserById(id);
         if (user is null)
-            return NotFound($"User was not found by id = {id}");
+            return NotFound("Анкета не найдена");
 
         return Ok(user.ToDTO());
     }
@@ -34,7 +34,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Register(UserDTO userDto)
     {
         if (!ModelState.IsValid)
-            return BadRequest("Required form fields are not filled or invalid");
+            return BadRequest("Невалидные данные");
 
         var user = userDto.FromDTO(Encryptor.MD5Hash(userDto.Password));
         return Ok(await _userRepository.AddAsync(user));

@@ -1,4 +1,4 @@
-﻿using SocialMedia.Core.Entities;
+﻿using SocialMedia.Core.Entities.Users;
 using SocialMedia.Core.Interfaces;
 
 namespace SocialMedia.Core.Services;

@@ -1,4 +1,4 @@
-﻿namespace SocialMedia.Core.Entities;
+﻿namespace SocialMedia.Core.Entities.Users;
 
 public class User
 {

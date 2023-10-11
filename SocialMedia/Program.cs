@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using SocialMedia;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Core.Services;
+using SocialMedia.Infrastructure.Cache;
 using SocialMedia.Infrastructure.Data.Repositories;
 using SocialMedia.Middlewares;
 using SocialMedia.Services;
@@ -31,11 +32,11 @@ builder.Services.AddSwaggerGen(option =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
-            new string[]{}
+            new string[] { }
         }
     });
 });
@@ -47,20 +48,42 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuer = true,
             ValidIssuer = AuthOptions.ISSUER,
- 
+
             ValidateAudience = true,
             ValidAudience = AuthOptions.AUDIENCE,
             ValidateLifetime = true,
- 
+
             IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
             ValidateIssuerSigningKey = true,
         };
     });
 
-builder.Services.AddTransient<IUserRepository, UserRepository>(ur=>
-    new UserRepository(builder.Configuration.GetConnectionString("DefaultConnection"), builder.Configuration.GetConnectionString("SlaveConnection")));
+var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+var slaveConnection = builder.Configuration.GetConnectionString("SlaveConnection");
+builder.Services.AddTransient<IUserRepository, UserRepository>(ur =>
+    new UserRepository(defaultConnection, slaveConnection));
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IAuthService, AuthService>();
+
+builder.Services.AddTransient<IPostsService, PostsService>();
+builder.Services.AddTransient<IFollowsService, FollowsService>();
+
+builder.Services.AddTransient<ICacheManager, CacheManager>();
+builder.Services.AddTransient<IPostsCacheManager, PostsCacheManager>();
+
+builder.Services.AddTransient<IFollowRepository, FollowRepository>(ur =>
+    new FollowRepository(defaultConnection));
+builder.Services.AddTransient<IPostRepository, PostRepository>(ur =>
+    new PostRepository(defaultConnection));
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost";
+    options.InstanceName = "local";
+});
 
 var app = builder.Build();
 

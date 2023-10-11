@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Npgsql;
 using SocialMedia.Core.Entities;
+using SocialMedia.Core.Entities.Users;
 using SocialMedia.Core.Interfaces;
 
 namespace SocialMedia.Infrastructure.Data.Repositories;
