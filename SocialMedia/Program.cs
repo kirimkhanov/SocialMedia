@@ -68,6 +68,7 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 
 builder.Services.AddTransient<IPostsService, PostsService>();
 builder.Services.AddTransient<IFollowsService, FollowsService>();
+builder.Services.AddTransient<IDialogService, DialogService>();
 
 builder.Services.AddTransient<ICacheManager, CacheManager>();
 builder.Services.AddTransient<IPostsCacheManager, PostsCacheManager>();
@@ -76,6 +77,8 @@ builder.Services.AddTransient<IFollowRepository, FollowRepository>(ur =>
     new FollowRepository(defaultConnection));
 builder.Services.AddTransient<IPostRepository, PostRepository>(ur =>
     new PostRepository(defaultConnection));
+builder.Services.AddTransient<IDialogMessageRepository, DialogMessageRepository>(ur =>
+    new DialogMessageRepository(defaultConnection));
 
 builder.Services.AddHttpContextAccessor();
 
