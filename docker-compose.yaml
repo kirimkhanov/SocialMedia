@@ -28,5 +28,21 @@ services:
       - social-media
     volumes:
       - postgres-data:/var/lib/postgresql/data
+  citus_master:
+    container_name: "${COMPOSE_PROJECT_NAME:-citus}_master"
+    image: "citusdata/citus:12.0.0"
+    ports: [ "${COORDINATOR_EXTERNAL_PORT:-35432}:5432" ]
+    labels: [ "com.citusdata.role=Master" ]
+    environment: &AUTH
+      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      PGUSER: "${POSTGRES_USER:-postgres}"
+      PGPASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_HOST_AUTH_METHOD: "${POSTGRES_HOST_AUTH_METHOD:-trust}"
+  citus_worker:
+    image: "citusdata/citus:12.0.0"
+    labels: [ "com.citusdata.role=Worker" ]
+    depends_on: [ citus_master ]
+    environment: *AUTH
 volumes:
   postgres-data:

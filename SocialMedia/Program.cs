@@ -60,6 +60,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var defaultConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 var slaveConnection = builder.Configuration.GetConnectionString("SlaveConnection");
+var citusConnection = builder.Configuration.GetConnectionString("citusConnection");
 builder.Services.AddTransient<IUserRepository, UserRepository>(ur =>
     new UserRepository(defaultConnection, slaveConnection));
 builder.Services.AddTransient<ITokenService, TokenService>();
@@ -78,7 +79,7 @@ builder.Services.AddTransient<IFollowRepository, FollowRepository>(ur =>
 builder.Services.AddTransient<IPostRepository, PostRepository>(ur =>
     new PostRepository(defaultConnection));
 builder.Services.AddTransient<IDialogMessageRepository, DialogMessageRepository>(ur =>
-    new DialogMessageRepository(defaultConnection));
+    new DialogMessageRepository(citusConnection));
 
 builder.Services.AddHttpContextAccessor();
 
