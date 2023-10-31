@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MessageBrokers.Payloads\MessageBrokers.Payloads.csproj" />
+      <ProjectReference Include="..\MessageBrokers\MessageBrokers.csproj" />
+      <ProjectReference Include="..\SocialMedia.Core\SocialMedia.Core.csproj" />
+      <ProjectReference Include="..\SocialMedia.Infrastructure\SocialMedia.Infrastructure.csproj" />
+      <ProjectReference Include="..\WebSocketService\WebSocketService.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
+      <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+    </ItemGroup>
+
+</Project>

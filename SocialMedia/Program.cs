@@ -1,3 +1,5 @@
+using MessageBrokers.Abstract;
+using MessageBrokers.RabbitMq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -70,9 +72,14 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IPostsService, PostsService>();
 builder.Services.AddTransient<IFollowsService, FollowsService>();
 builder.Services.AddTransient<IDialogService, DialogService>();
+builder.Services.AddTransient<IPostCreationHandler, PostCreationHandler>();
 
 builder.Services.AddTransient<ICacheManager, CacheManager>();
 builder.Services.AddTransient<IPostsCacheManager, PostsCacheManager>();
+
+builder.Services.Configure<RabbitMqConfiguration>(builder.Configuration.GetSection("RabbitMq"));
+builder.Services.AddScoped<IRabbitMqService, RabbitMqService>();
+builder.Services.AddScoped<IProducer, RabbitMqProducer>();
 
 builder.Services.AddTransient<IFollowRepository, FollowRepository>(ur =>
     new FollowRepository(defaultConnection));

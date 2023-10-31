@@ -44,5 +44,29 @@ services:
     labels: [ "com.citusdata.role=Worker" ]
     depends_on: [ citus_master ]
     environment: *AUTH
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - social-media
+  post_creation_service:
+    container_name: post_creation_service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    build:
+      context: .
+      dockerfile: ./WebSocketService.PostCreation/Dockerfile
+    ports:
+      - 88:80
+    networks:
+      - social-media
+    depends_on:
+      - rabbitmq
 volumes:
   postgres-data:

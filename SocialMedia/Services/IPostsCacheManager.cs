@@ -9,4 +9,5 @@ public interface IPostsCacheManager
     Task AddPostToAllFollowersCache(Post post);
     Task UpdatePostInAllFollowersCache(Post post);
     Task InvalidateAllFollowersCache(int userId);
+    Task AddPostToUserCache(int userId, Post post);
 }

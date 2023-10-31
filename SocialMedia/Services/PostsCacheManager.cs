@@ -70,9 +70,9 @@ public class PostsCacheManager: IPostsCacheManager
         await _cacheManager.RemoveAllAsync(follows.Select(f=>f.FollowerId.ToString()).ToArray());
     }
     
-    private async Task AddPostToUserCache(int userId, Post post)
+    public async Task AddPostToUserCache(int userId, Post post)
     {
-        var keyString = userId.ToString();
+        var keyString = GetKeyString(userId);
         var postsFromCache = await _cacheManager.GetAsync<IList<Post>>(keyString);
         if (postsFromCache is null)
             return;
@@ -83,7 +83,7 @@ public class PostsCacheManager: IPostsCacheManager
     
     private async Task UpdatePostInUserCache(int userId, Post post)
     {
-        var keyString = userId.ToString();
+        var keyString = GetKeyString(userId);
         var postsFromCache = await _cacheManager.GetAsync<IList<Post>>(keyString);
         var postFromCache = postsFromCache?.SingleOrDefault(p => p.Id == post.Id);
         if (postsFromCache is null || postFromCache is null)
@@ -92,6 +92,8 @@ public class PostsCacheManager: IPostsCacheManager
         postFromCache.Text = post.Text;
         await _cacheManager.SetAsync(keyString, postsFromCache);
     }
+
+    private string GetKeyString(int userId) => $"posts_{userId.ToString()}";
 
     private void LogDataExtractionFromCache(string keyString) =>
         _logger.LogDebug($"Извлечение постов из кэша.\n" +

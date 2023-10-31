@@ -8,11 +8,13 @@ public class PostsService : IPostsService
 {
     private readonly IPostRepository _postRepository;
     private readonly IPostsCacheManager _postsCacheManager;
+    private readonly IPostCreationHandler _postCreationHandler;
 
-    public PostsService(IPostRepository postRepository, IPostsCacheManager postsCacheManager)
+    public PostsService(IPostRepository postRepository, IPostsCacheManager postsCacheManager, IPostCreationHandler postCreationHandler)
     {
         _postRepository = postRepository;
         _postsCacheManager = postsCacheManager;
+        _postCreationHandler = postCreationHandler;
     }
 
     public async Task<Post?> GetPost(int postId) =>
@@ -25,7 +27,7 @@ public class PostsService : IPostsService
         var postId = await _postRepository.AddAsync(post);
         post.Id = postId;
 
-        await _postsCacheManager.AddPostToAllFollowersCache(post);
+        await _postCreationHandler.Handle(post);
     }
 
     public async Task UpdatePost(PostDto postDto)
