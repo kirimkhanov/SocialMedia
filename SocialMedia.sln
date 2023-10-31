@@ -4,9 +4,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMedia", "SocialMedia\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMedia.Core", "SocialMedia.Core\SocialMedia.Core.csproj", "{C6341913-3C0A-4D38-9900-98067A5B8EEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBrokers.Payloads", "MessageBrokers.Payloads\MessageBrokers.Payloads.csproj", "{2BDBEA51-EA0A-4532-AD05-9F656D51175E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMedia.Infrastructure", "SocialMedia.Infrastructure\SocialMedia.Infrastructure.csproj", "{F1077A52-C13C-4329-B216-482B37A9ECD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMedia.UnitTests", "SocialMedia.UnitTests\SocialMedia.UnitTests.csproj", "{2413693B-FD49-4C27-B5A1-5A103D3D5E96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBrokers", "MessageBrokers\MessageBrokers.csproj", "{BA3A04B9-84D4-433A-8B3E-843F2B6B6136}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,11 +26,19 @@ Global
 		{C6341913-3C0A-4D38-9900-98067A5B8EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6341913-3C0A-4D38-9900-98067A5B8EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6341913-3C0A-4D38-9900-98067A5B8EEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1077A52-C13C-4329-B216-482B37A9ECD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BDBEA51-EA0A-4532-AD05-9F656D51175E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {2BDBEA51-EA0A-4532-AD05-9F656D51175E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {2BDBEA51-EA0A-4532-AD05-9F656D51175E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {2BDBEA51-EA0A-4532-AD05-9F656D51175E}.Release|Any CPU.Build.0 = Release|Any CPU
+        {F1077A52-C13C-4329-B216-482B37A9ECD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1077A52-C13C-4329-B216-482B37A9ECD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1077A52-C13C-4329-B216-482B37A9ECD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1077A52-C13C-4329-B216-482B37A9ECD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2413693B-FD49-4C27-B5A1-5A103D3D5E96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA3A04B9-84D4-433A-8B3E-843F2B6B6136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {BA3A04B9-84D4-433A-8B3E-843F2B6B6136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {BA3A04B9-84D4-433A-8B3E-843F2B6B6136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {BA3A04B9-84D4-433A-8B3E-843F2B6B6136}.Release|Any CPU.Build.0 = Release|Any CPU
+        {2413693B-FD49-4C27-B5A1-5A103D3D5E96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2413693B-FD49-4C27-B5A1-5A103D3D5E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2413693B-FD49-4C27-B5A1-5A103D3D5E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2413693B-FD49-4C27-B5A1-5A103D3D5E96}.Release|Any CPU.Build.0 = Release|Any CPU
